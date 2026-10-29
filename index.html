@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rons Home | Discord Bots</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b12;color:#fff;font-family:Arial,sans-serif}
+header{padding:22px 8%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #292438}
+.logo{font-size:25px;font-weight:bold;color:#a78bfa}
+button,.btn{background:#8056e8;color:white;padding:12px 18px;border:0;border-radius:10px;cursor:pointer;text-decoration:none}
+.hero{text-align:center;padding:75px 20px}
+h1{font-size:48px;margin-bottom:15px}
+h1 span{color:#a78bfa}
+p{color:#b8b5c8;line-height:1.8}
+.search{width:min(500px,90%);padding:14px;background:#171622;border:1px solid #383047;border-radius:10px;color:white;margin:20px auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;padding:20px 8% 70px}
+.card{background:#171622;border:1px solid #30283e;padding:22px;border-radius:17px}
+.icon{font-size:40px}
+.card h2{margin-bottom:8px}
+.tag{color:#c4b5fd;font-size:13px}
+section>h2{text-align:center}
+footer{text-align:center;padding:25px;border-top:1px solid #292438;color:#aaa}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⌂ Rons Home</div>
+  <button onclick="toggleLang()" id="language">English</button>
+</header>
+
+<main>
+<section class="hero">
+  <h1 id="title">كل بوت تحتاجه،<br><span>في مكان واحد.</span></h1>
+  <p id="description">اكتشف بوتات ديسكورد واختر الأدوات المناسبة لسيرفرك.</p>
+  <a class="btn" href="#bots" id="explore">استكشف البوتات ↓</a>
+  <br>
+  <input class="search" id="search" placeholder="ابحث عن بوت..." oninput="renderBots()">
+</section>
+
+<section id="bots">
+  <h2 id="botsTitle">🤖 اكتشف البوتات</h2>
+  <div class="grid" id="botGrid"></div>
+</section>
+
+<section style="padding:35px 8%;text-align:center">
+  <h2 id="submitTitle">➕ أضف بوتك إلى Rons Home</h2>
+  <p id="submitDescription">عندك بوت ديسكورد؟ شاركه مع المجتمع.</p>
+  <a class="btn" href="https://discord.com/developers/applications" target="_blank" rel="noopener">Discord Developer Portal ↗</a>
+</section>
+</main>
+
+<footer>© <span id="year"></span> Rons Home — Discord Bot Community</footer>
+
+<script>
+const bots=[
+ {name:"ModMate",icon:"🛡️",category:"Moderation",description:"أدوات إشراف وإدارة للسيرفر."},
+ {name:"StudyNest",icon:"📚",category:"Utility",description:"نظّم المهام وجلسات الدراسة."},
+ {name:"PixelFun",icon:"🎮",category:"Fun",description:"ألعاب وأوامر تفاعلية للأعضاء."},
+ {name:"EchoWave",icon:"🎵",category:"Music",description:"بوت موسيقى تجريبي."},
+ {name:"WelcomeKit",icon:"👋",category:"Utility",description:"رسائل ترحيب للأعضاء الجدد."},
+ {name:"GuardFox",icon:"🦊",category:"Moderation",description:"أدوات حماية وإشراف تجريبية."}
+];
+let english=false;
+
+function renderBots(){
+ const q=document.getElementById("search").value.toLowerCase();
+ document.getElementById("botGrid").innerHTML=bots
+ .filter(b=>(b.name+" "+b.category+" "+b.description).toLowerCase().includes(q))
+ .map(b=>`<article class="card">
+ <div class="icon">${b.icon}</div><h2>${b.name}</h2>
+ <div class="tag">${b.category}</div>
+ <p>${b.description}</p>
+ <a class="btn" href="https://discord.com/oauth2/authorize" target="_blank" rel="noopener">${english?"Invite bot ↗":"دعوة البوت ↗"}</a>
+ </article>`).join("");
+}
+
+function toggleLang(){
+ english=!english;
+ document.documentElement.lang=english?"en":"ar";
+ document.documentElement.dir=english?"ltr":"rtl";
+ document.getElementById("language").textContent=english?"العربية":"English";
+ document.getElementById("title").innerHTML=english?'Every bot you need,<br><span>in one place.</span>':'كل بوت تحتاجه،<br><span>في مكان واحد.</span>';
+ document.getElementById("description").textContent=english?"Discover Discord bots and find tools for your server.":"اكتشف بوتات ديسكورد واختر الأدوات المناسبة لسيرفرك.";
+ document.getElementById("explore").textContent=english?"Explore bots ↓":"استكشف البوتات ↓";
+ document.getElementById("search").placeholder=english?"Search bots...":"ابحث عن بوت...";
+ document.getElementById("botsTitle").textContent=english?"🤖 Discover bots":"🤖 اكتشف البوتات";
+ document.getElementById("submitTitle").textContent=english?"➕ Share your bot":"➕ أضف بوتك إلى Rons Home";
+ document.getElementById("submitDescription").textContent=english?"Have a Discord bot? Share it with the community.":"عندك بوت ديسكورد؟ شاركه مع المجتمع.";
+ renderBots();
+}
+document.getElementById("year").textContent=new Date().getFullYear();
+renderBots();
+</script>
+</body>
+</html>
